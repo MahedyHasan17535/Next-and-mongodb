@@ -2,6 +2,7 @@ import Link from "next/link";
 import NavLinks from "./NavLinks";
 import { getCategories } from "@/lib/api";
 
+
 const Header = async () => {
   const date = new Date().toLocaleDateString("bn-BD", {
     dateStyle: "full",
