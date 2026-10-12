@@ -1,12 +1,9 @@
-<div align="center">
 
-# 🛒 বাজার দর | BazarDor
+
+#  বাজার দর | BazarDor
 
 **প্রয়োজনীয় পণ্যের দাম এক নজরে।**
 
-</div>
-
----
 
 ## 📖 Description
 
