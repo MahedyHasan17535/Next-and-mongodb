@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
-// shows a toast when the user is sent here from a protected route
 const RedirectToast = () => {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");

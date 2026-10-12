@@ -8,7 +8,6 @@ import { parseNumber } from "@/lib/format";
 const SortedProducts = ({ products }: { products: Product[] }) => {
   const [sort, setSort] = useState("default");
 
-  // price is always compared as a number (Bengali digits are converted first)
   const sortedProducts = [...products].sort((a, b) => {
     if (sort === "low") return parseNumber(a.price) - parseNumber(b.price);
     if (sort === "high") return parseNumber(b.price) - parseNumber(a.price);
