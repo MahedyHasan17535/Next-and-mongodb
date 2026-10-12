@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
@@ -7,6 +8,7 @@ import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,32 +30,50 @@ const SignUpPage = () => {
       return;
     }
 
-    const { data, error } = await authClient.signUp.email({
-      ...user,
-    });
+    setLoading(true);
 
-    if (data) {
-      toast.success("অ্যাকাউন্ট তৈরি হয়েছে! এখন সাইন ইন করুন।");
-      router.push("/signin");
-    }
+    try {
+      const { data, error } = await authClient.signUp.email({
+        ...user,
+      });
 
-    if (error) {
-      toast.error(error.message || "অ্যাকাউন্ট তৈরি করা যায়নি!");
+      if (error) {
+        toast.error(error.message || "অ্যাকাউন্ট তৈরি করা যায়নি!");
+        return;
+      }
+
+      if (data) {
+        toast.success("অ্যাকাউন্ট তৈরি হয়েছে! এখন সাইন ইন করুন।");
+        router.push("/signin");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("সার্ভারের সাথে সংযোগ করা যাচ্ছে না!");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({
+    const { error } = await authClient.signIn.social({
       provider: "google",
       callbackURL: "/",
     });
+
+    if (error) {
+      toast.error(error.message || "Google সাইন ইন চালু নেই!");
+    }
   };
 
   const handleGithubSignIn = async () => {
-    await authClient.signIn.social({
+    const { error } = await authClient.signIn.social({
       provider: "github",
       callbackURL: "/",
     });
+
+    if (error) {
+      toast.error(error.message || "GitHub সাইন ইন চালু নেই!");
+    }
   };
 
   return (
@@ -88,9 +108,10 @@ const SignUpPage = () => {
 
             <button
               type="submit"
+              disabled={loading}
               className="btn border-none text-white bg-brand hover:bg-brand-dark mt-4"
             >
-              সাইন আপ করুন
+              {loading ? "অপেক্ষা করুন..." : "সাইন আপ করুন"}
             </button>
           </fieldset>
         </form>
