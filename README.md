@@ -4,8 +4,6 @@
 
 **প্রয়োজনীয় পণ্যের দাম এক নজরে।**
 
-নিত্যপ্রয়োজনীয় পণ্যের আজকের দর, দাম বাড়া-কমার হার এবং বিভিন্ন বাজারের দাম তুলনা করার একটি ওয়েব অ্যাপ।
-
 </div>
 
 ---
@@ -19,16 +17,15 @@ bazars. Signed-in users can open a detailed price summary for every product.
 
 ## 🛠️ Technologies Used
 
-| Purpose | Technology |
-|---|---|
-| Framework | [Next.js 16](https://nextjs.org) (App Router) + React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 + DaisyUI 5 |
-| Authentication | [Better Auth](https://better-auth.com) (Email/Password, Google, GitHub) |
-| Database | MongoDB (users only) |
-| Notifications | react-hot-toast |
-| Price ticker | react-marquee-text |
-| Data | BazarDor Open API |
+Next.js 16
+React 19
+TypeScript
+Tailwind CSS v4
+DaisyUI 5
+Better Auth
+MongoDB
+react-hot-toast
+react-marquee-text
 
 ## ✨ Key Features
 
@@ -40,58 +37,3 @@ bazars. Signed-in users can open a detailed price summary for every product.
 6. **Profile update** – change your name from the `My Profile` page.
 7. **Skeleton loading & 404 pages** – smooth loading states and friendly "হোম পেজে ফিরে যান" empty states.
 8. **Fully responsive** – works on mobile, tablet and desktop.
-
-## 📁 Project Structure
-
-```
-src/
-├── proxy.ts                 # protects /profile and /product/*
-├── lib/                     # api, format helpers, better-auth (server + client)
-├── components/              # Header, NavLinks, UserInfo, Marquee, Hero, ProductCard ...
-└── app/
-    ├── page.tsx             # home (hero + risers + fallers + all products)
-    ├── category/[categoryId]
-    ├── product/[slug]
-    ├── signin | signup
-    ├── profile | profile/update
-    └── api/auth/[...all]
-```
-
-## 🚀 Getting Started
-
-```bash
-npm install
-cp .env.example .env.local   # then fill in the values
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-### Environment variables
-
-```env
-BETTER_AUTH_SECRET=
-BETTER_AUTH_URL=http://localhost:3000
-MONGODB_URL=
-
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-```
-
-> For social login, add `<BETTER_AUTH_URL>/api/auth/callback/google` and
-> `<BETTER_AUTH_URL>/api/auth/callback/github` as the redirect URLs in the Google / GitHub apps.
-
-## 🌐 API
-
-Base: `https://openapi.programming-hero.com/api/bazardor`
-(alternatives are used automatically if the main one fails)
-
-`/products` · `/products?category=chal` · `/products/1` · `/categories` · `/categories/chal`
-
-## ☁️ Deployment
-
-Deploy on Vercel and add the same environment variables in the project settings.
-Dynamic routes (`/category/[categoryId]`, `/product/[slug]`) are server rendered, so reloading never causes a 404.
