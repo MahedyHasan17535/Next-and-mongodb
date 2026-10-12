@@ -1,9 +1,18 @@
 import Link from "next/link";
 import ChangeBadge from "./ChangeBadge";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, toBn } from "@/lib/format";
 import type { Product } from "@/lib/api";
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const date = toBn(
+    new Date().toLocaleDateString("bn-BD", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "Asia/Dhaka",
+    }),
+  );
+
   return (
     <Link href={`/product/${product.slug}`}>
       <div className="card bg-white border border-line p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
@@ -19,7 +28,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         <div className="mt-4 flex items-end justify-between border-t border-line pt-3">
           <div>
-            <p className="text-xs text-neutral-500">আজকের দাম</p>
+            <p className="text-xs text-neutral-500">আজকের দাম · {date}</p>
             <p className="text-lg font-bold text-brand-dark">
               {formatPrice(product.price)} টাকা
             </p>

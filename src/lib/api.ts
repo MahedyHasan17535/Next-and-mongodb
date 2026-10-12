@@ -38,7 +38,11 @@ export interface Category {
 type Raw = Record<string, unknown>;
 
 const bengali = /[\u0980-\u09FF]/;
-const priceInner = /today|current|price|value|now|latest|avg|average/i;
+const priceInner = /today|current|price|value|now|latest|avg|average|cost|taka|tk/i;
+
+// keys that are never a price (used by the market price fallback)
+const NON_PRICE =
+  /name|title|area|district|division|location|city|region|slug|^(lat|lng|latitude|longitude)$|^_?id$|Id$/i;
 
 const isObject = (value: unknown): value is Raw =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -106,6 +110,16 @@ const findNumber = (
   return 0;
 };
 
+// fallback: first numeric field that is not a name / location / id
+const firstNumeric = (raw: Raw): number => {
+  for (const [key, value] of Object.entries(raw)) {
+    if (NON_PRICE.test(key)) continue;
+    const num = toNumber(value);
+    if (num !== 0) return num;
+  }
+  return 0;
+};
+
 // try main url first, then the alternative urls
 const request = async (path: string): Promise<unknown> => {
   for (const base of BASE_URLS) {
@@ -145,7 +159,10 @@ const toProduct = (raw: Raw, index: number): Product => {
     ? rawMarkets.filter(isObject).map((m) => ({
         name: toText(findKey(m, /name|title|market|bazar/i)),
         area: toText(findKey(m, /area|district|division|location|city|region/i)),
-        price: findNumber(m, /price|rate|amount|today|value|current/i),
+        // FIX: wider key match + fallback to the first numeric field
+        price:
+          findNumber(m, /price|rate|amount|today|value|current|cost|taka|tk|dam/i) ||
+          firstNumeric(m),
       }))
     : [];
   const marketPrices = markets.map((m) => m.price).filter((p) => p > 0);

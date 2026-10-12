@@ -5,20 +5,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const UserInfo = () => {
+interface UserInfoProps {
+  user: { name: string; image: string | null } | null;
+}
+
+const UserInfo = ({ user }: UserInfoProps) => {
   const router = useRouter();
-  const { data: session, isPending } = authClient.useSession();
-  const user = session?.user;
 
   const handleSignout = async () => {
     await authClient.signOut();
     toast.success("সফলভাবে সাইন আউট হয়েছে!");
     router.push("/");
+    router.refresh();
   };
-
-  if (isPending) {
-    return <div className="skeleton h-9 w-28"></div>;
-  }
 
   return (
     <div className="flex items-center gap-2 text-sm">

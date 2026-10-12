@@ -1,14 +1,20 @@
 import Link from "next/link";
+import { headers } from "next/headers";
 import NavLinks from "./NavLinks";
+import UserInfo from "./UserInfo";
+import TodayDate from "./TodayDate";
 import { getCategories } from "@/lib/api";
-
+import { auth } from "@/lib/auth";
 
 const Header = async () => {
-  const date = new Date().toLocaleDateString("bn-BD", {
-    dateStyle: "full",
-  });
+  const [categories, session] = await Promise.all([
+    getCategories(),
+    auth.api.getSession({ headers: await headers() }),
+  ]);
 
-  const categories = await getCategories();
+  const user = session?.user
+    ? { name: session.user.name, image: session.user.image ?? null }
+    : null;
 
   return (
     <header className="border-b border-line bg-white">
@@ -18,21 +24,12 @@ const Header = async () => {
             <span className="text-xl font-bold text-brand-dark sm:text-2xl">
               🛒 বাজার দর
             </span>
-            <span className="text-xs text-neutral-500">{date}</span>
+            <span className="text-xs text-neutral-500">
+              <TodayDate />
+            </span>
           </Link>
 
-          {/* temporary, replaced by UserInfo in Phase 7 */}
-          <div className="flex items-center gap-2 text-sm">
-            <Link href={"/signin"} className="btn btn-ghost btn-sm sm:btn-md">
-              সাইন ইন
-            </Link>
-            <Link
-              href={"/signup"}
-              className="btn btn-sm sm:btn-md border-none bg-brand font-semibold text-white hover:bg-brand-dark"
-            >
-              সাইন আপ
-            </Link>
-          </div>
+          <UserInfo user={user} />
         </div>
 
         <NavLinks categories={categories} />

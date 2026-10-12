@@ -1,11 +1,12 @@
 import Image from "next/image";
+import TodayDate from "./TodayDate";
 
 const Hero = () => {
   return (
     <section className="mt-5 grid items-center gap-6 rounded-3xl bg-brand-soft border border-line px-6 py-8 md:grid-cols-2 md:px-10">
       <div className="text-center md:text-left">
         <p className="text-sm font-semibold text-brand-dark">
-          Today&apos;s market prices at a glance
+          Today&apos;s market prices at a glance · <TodayDate />
         </p>
         <h1 className="mt-2 text-3xl font-bold leading-tight text-ink sm:text-4xl">
           Everyday product prices, first in your hands

@@ -3,7 +3,11 @@ import ChangeBadge from "@/components/ChangeBadge";
 import { getProduct } from "@/lib/api";
 import { formatPrice } from "@/lib/format";
 
-const ProductDetails = async ({ params }: { params: { slug: string } }) => {
+const ProductDetails = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
   const { slug } = await params;
 
   const product = await getProduct(slug);
@@ -85,7 +89,7 @@ const ProductDetails = async ({ params }: { params: { slug: string } }) => {
                 <tr key={`${m.name}-${i}`}>
                   <td className="font-semibold">
                     {m.name}
-                    {m === cheapest && (
+                    {i === 0 && m.price > 0 && (
                       <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs text-brand-dark">
                         সবচেয়ে কম দামের বাজার
                       </span>
