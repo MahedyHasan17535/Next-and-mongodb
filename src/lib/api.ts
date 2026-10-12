@@ -120,7 +120,7 @@ const firstNumeric = (raw: Raw): number => {
   return 0;
 };
 
-// try main url first, then the alternative urls
+
 const request = async (path: string): Promise<unknown> => {
   for (const base of BASE_URLS) {
     try {
@@ -159,7 +159,6 @@ const toProduct = (raw: Raw, index: number): Product => {
     ? rawMarkets.filter(isObject).map((m) => ({
         name: toText(findKey(m, /name|title|market|bazar/i)),
         area: toText(findKey(m, /area|district|division|location|city|region/i)),
-        // FIX: wider key match + fallback to the first numeric field
         price:
           findNumber(m, /price|rate|amount|today|value|current|cost|taka|tk|dam/i) ||
           firstNumeric(m),
@@ -245,7 +244,6 @@ export const getProduct = async (slug: string): Promise<Product | null> => {
     return toProduct(raw, 0);
   }
 
-  // fallback: find the product from the full list by slug / id
   const all = await getProducts();
   return all.find((p) => p.slug === slug || p.id === slug) ?? null;
 };
