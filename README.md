@@ -5,14 +5,14 @@
 **প্রয়োজনীয় পণ্যের দাম এক নজরে।**
 
 
-## 📖 Description
+## Description
 
 BazarDor is a Bengali grocery price tracker. It shows today's price of everyday
 products (rice, pulses, vegetables, fish, meat, oil, spices and more), how much the
 price went up or down, and compares the price of each product across different
 bazars. Signed-in users can open a detailed price summary for every product.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 Next.js 16
 React 19
@@ -24,7 +24,7 @@ MongoDB
 react-hot-toast
 react-marquee-text
 
-## ✨ Key Features
+## Key Features
 
 1. **Live price ticker** – an infinite scrolling strip with emoji, name, price per unit and ▲/▼ change.
 2. **Risers & fallers** – top 6 products whose price went up and top 6 whose price went down today.
