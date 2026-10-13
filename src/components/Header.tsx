@@ -24,9 +24,7 @@ const Header = async () => {
             <span className="text-xl font-bold text-brand-dark sm:text-2xl">
               🛒 বাজার দর
             </span>
-            <span className="text-xs text-neutral-500">
-              <TodayDate />
-            </span>
+            <TodayDate />
           </Link>
 
           <UserInfo user={user} />
